@@ -1,0 +1,21 @@
+[package]
+name = "chess"
+description = "A simple chess library written in Rust"
+version = "0.1.0"
+authors = ["Teresa <https://github.com/ComradeYellowCitrusFruit>"]
+readme = "README.md"
+license = "GPL-3.0-or-later"
+repository = "https://github.com/ComradeYellowCitrusFruit/chess-engine"
+keywords = ["chess"]
+include = ["/src"]
+
+[profile.dev]
+opt-level = 0
+overflow-checks = false
+lto = true
+debug = true
+
+[profile.release]
+opt-level = 2
+overflow-checks = false
+lto = true
