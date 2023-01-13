@@ -1,5 +1,5 @@
 [package]
-name = "chess"
+name = "libchess"
 description = "A simple chess library written in Rust"
 version = "0.1.0"
 authors = ["Teresa <https://github.com/ComradeYellowCitrusFruit>"]
