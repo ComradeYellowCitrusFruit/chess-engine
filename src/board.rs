@@ -12,7 +12,7 @@ enum pieceType
 	wBishop,
 	wRook,
 	wKing,
-	wQueen
+	wQueen,
 }
 
 impl pieceType
@@ -21,12 +21,12 @@ impl pieceType
 	{
 		match self
 		{
-			pieceType.empty => return 0;
-			pieceType.bPawn | pieceType.wPawn => return 100;
-			pieceType.bKnight | pieceType.wKnight | pieceType.bBishop | pieceType.wBishop => return 300;
-			pieceType.bRook | pieceType.wRook => return 500;
-			pieceType.bQueen | pieceType.wQueen => return 900;
-			pieceType.bKing | pieceType.wKing => return 1_000_000_000;
+			pieceType::empty => return 0;
+			pieceType::bPawn | pieceType::wPawn => return 100;
+			pieceType::bKnight | pieceType::wKnight | pieceType::bBishop | pieceType::wBishop => return 300;
+			pieceType::bRook | pieceType::wRook => return 500;
+			pieceType::bQueen | pieceType::wQueen => return 900;
+			pieceType::bKing | pieceType::wKing => return 1_000_000_000;
 		}
 	}
 }
