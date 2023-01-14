@@ -1,3 +1,5 @@
+use std::string::String;
+
 enum pieceType
 {
 	empty,
@@ -64,10 +66,27 @@ struct Position
 	number: u8;
 }
 
+impl Position
+{
+	fn inBounds(&self) -> bool
+	{
+		if self.letter < 8 | 8 > self.number
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+}
+
 impl board
 {
 	fn isBlackInCheckmate(&self) -> bool;
 	fn isWhiteInCheckmate(&self) -> bool;
+	fn isBlackInCheck(&self) -> bool;
+	fn isWhiteInCheck(&self) -> bool;
 
 	// Calculate white's centipawn rating
 	fn whiteCentipawns(&self) -> i32
@@ -118,4 +137,9 @@ impl board
 
 	// Is position attacked
 	fn positionUnderAttack(&self, pos: Position) -> bool;
+
+	// Is position attacked by a piece of type piece
+	fn positionUnderAttackBy(&self, pos: Position, piece: pieceType) -> bool;
+
+	fn toFEN(&self) -> String;
 }
