@@ -54,7 +54,14 @@ struct board
 	bCastled: mut bool;
 	wCastled: mut bool;
 	toMove: bool;
+	enPassant: bool;
 	pieces: [mut [mut pieceType; 8]; 8];
+}
+
+struct Position
+{
+	letter: u8;
+	number: u8;
 }
 
 impl board
@@ -62,6 +69,7 @@ impl board
 	fn isBlackInCheckmate(&self) -> bool;
 	fn isWhiteInCheckmate(&self) -> bool;
 
+	// Calculate white's centipawn rating
 	fn whiteCentipawns(&self) -> i32
 	{
 		let ret: i32 = 0;
@@ -83,6 +91,7 @@ impl board
 		ret
 	}
 
+	// Calculate black's centipawn rating
 	fn blackCentipawns(&self) -> i32
 	{
 		let ret: i32 = 0;
@@ -103,4 +112,10 @@ impl board
 		}
 		ret
 	}
+
+	// Validate move
+	fn isMoveValid(&self, start: Position, destination: Position) -> bool;
+
+	// Is position attacked
+	fn positionUnderAttack(&self, pos: Position) -> bool;
 }
