@@ -54,10 +54,12 @@ impl pieceType
 #[derive(Copy, Clone)]
 struct Board
 {
-	bCastled: mut bool;
-	wCastled: mut bool;
-	toMove: bool;
-	enPassant: bool;
+	wqCastleAvalible: mut bool;
+	wkcastleAvalible: mut bool;
+	bqCastleAvalible: mut bool;
+	bkcastleAvalible: mut bool;
+	toMove: mut bool;
+	enPassant: mut bool;
 	pieces: [mut [mut PieceType; 8]; 8];
 }
 
