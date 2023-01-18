@@ -6,7 +6,7 @@ use std::string::String;
 */
 pub fn generateMove(FEN: &str, depth: i16) -> String;
 
-/*  Get checkmate status, as a bitmap
+/*  Get checkmate status, as bitflags
 *   bit 0 - Set if white is in checkmate
 *   bit 1 - Set if black is in checkmate
 *   bit 2 - Set if position is illegal
