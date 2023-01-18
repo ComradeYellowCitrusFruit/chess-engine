@@ -58,7 +58,7 @@ struct Board
 	wkcastleAvalible: mut bool;
 	bqCastleAvalible: mut bool;
 	bkcastleAvalible: mut bool;
-	toMove: mut bool;
+	bToMove: mut bool;
 	enPassant: mut bool;
 	pieces: [mut [mut PieceType; 8]; 8];
 }
@@ -83,7 +83,7 @@ impl Position
 		{
 			return true;
 		}
-		els
+		else
 		{
 			return false;
 		}
@@ -92,7 +92,95 @@ impl Position
 
 impl Board
 {
-	fn fromFEN(fen: str) -> Board;
+	fn fromFEN(fen: str) -> Board
+	{
+		// 0 - positions
+		// 1 - To Move
+		// 2 - Castling metadata
+		// 3 - En Passant
+		// 4 - Halfmove clock, currently unused
+		// 5 - Fullmove clock, currently unused
+		let sectionOfFen = 0;
+		let num = 8;
+		let letter = 8;
+		let ret = Board { wqCastleAvalible = false, wkCastleAvalible = false, bqCastleAvalible = false, bkCastleAvalible = false, bToMove = false, enPassant = false, pieces = [[PieceType::empty; 8]; 8] };
+		for c in str.chars()
+		{
+			if num != 1 && letter != 0
+			{
+				if c == '/'
+				{
+					num += 1;
+				}
+				else if c.is_digit(10)
+				{
+					letter -= c.to_digit(10);
+				}
+				else
+				{
+					ret.getPiece(num, letter) = match c
+					{
+						'r' => PieceType::bRook,
+						'n' => PieceType::bKnight,
+						'b' => PieceType::bBishop,
+						'q' => PieceType::bQueen,
+						'k' => PieceType::bKing,
+						'p' => PieceType::bPawn,
+						'R' => PieceType::wRook,
+						'N' => PieceType::wKnight,
+						'B' => PieceType::wBishop,
+						'Q' => PieceType::wQueen,
+						'K' => PieceType::wKing,
+						'P' => PieceType::wPawn,
+						_ => PieceType::empty,
+					};
+					letter -= 1;
+				}
+			}
+			else
+			{
+				if c == ' '
+				{
+					sectionOfFen += 1;
+				}
+				else
+				{
+					match sectionOfFen
+					{
+						1 => {
+							if c == 'b'
+							{
+								ret.bToMove = true;
+							}
+						},
+						2 => {
+							if c == 'K'
+							{
+								ret.wkCastleAvalible = true;
+							}
+							if c == 'Q'
+							{
+								ret.wqCastleAvalible = true;
+							}
+							if c == 'k'
+							{
+								ret.bkCastleAvalible = true;
+							}
+							if c == 'q'
+							{
+								ret.bqCastleAvalible = true;
+							}
+						},
+						3 => {
+							// TODO: Add code to handle en passant
+						},
+						_ => {},
+					}
+				}
+			}
+		}
+		ret
+	}
 	
 	// @param num Number on the Chess board
 	// @param letter Letter on the Chess board, 8 for a, 1 for h
@@ -115,7 +203,7 @@ impl Board
 		{
 			for j in i
 			{
-				ret += if j.isBlack() || j == pieceType::wKing
+				ret += if j.isBlack() || j == PieceType::wKing
 				{
 					j.centipawns()
 				}
@@ -137,7 +225,7 @@ impl Board
 		{
 			for j in i
 			{
-				ret += if j.isWhite() || j == pieceType::bKing
+				ret += if j.isWhite() || j == PieceType::bKing
 				{
 					j.centipawns()
 				}
