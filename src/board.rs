@@ -1,6 +1,6 @@
 use std::string::String;
 
-enum pieceType
+enum PieceType
 {
 	empty,
 	bPawn,
@@ -23,12 +23,12 @@ impl pieceType
 	{
 		match self
 		{
-			pieceType::empty => return 0,
-			pieceType::bPawn | pieceType::wPawn => return 100,
-			pieceType::bKnight | pieceType::wKnight | pieceType::bBishop | pieceType::wBishop => return 300,
-			pieceType::bRook | pieceType::wRook => return 500,
-			pieceType::bQueen | pieceType::wQueen => return 900,
-			pieceType::bKing | pieceType::wKing => return 1_000_000_000,
+			PieceType::empty => return 0,
+			PieceType::bPawn | PieceType::wPawn => return 100,
+			PieceType::bKnight | PieceType::wKnight | PieceType::bBishop | PieceType::wBishop => return 300,
+			PieceType::bRook | PieceType::wRook => return 500,
+			PieceType::bQueen | PieceType::wQueen => return 900,
+			PieceType::bKing | PieceType::wKing => return 1_000_000_000,
 		}
 	}
 
@@ -36,7 +36,7 @@ impl pieceType
 	{
 		match self
 		{
-			pieceType::bPawn | pieceType::bKnight | pieceType::bRook | pieceType::bQueen | pieceType::bKing => return true,
+			PieceType::bPawn | PieceType::bKnight | PieceType::bRook | PieceType::bQueen | PieceType::bKing => return true,
 			_ => return false,
 		}
 	}
@@ -45,21 +45,23 @@ impl pieceType
 	{
 		match self
 		{
-			pieceType::wPawn | pieceType::wKnight | pieceType::wRook | pieceType::wQueen | pieceType::wKing => return true,
+			PieceType::wPawn | PieceType::wKnight | PieceType::wRook | PieceType::wQueen | PieceType::wKing => return true,
 			_ => return false,
 		}
 	}	
 }
 
-struct board
+#[derive(Copy, Clone)]
+struct Board
 {
 	bCastled: mut bool;
 	wCastled: mut bool;
 	toMove: bool;
 	enPassant: bool;
-	pieces: [mut [mut pieceType; 8]; 8];
+	pieces: [mut [mut PieceType; 8]; 8];
 }
 
+#[derive(Copy, Clone)]
 struct Position
 {
 	letter: u8;
@@ -68,21 +70,35 @@ struct Position
 
 impl Position
 {
+	fn mkPos(num: u64, letr: u64) -> Position
+	{
+		Position { letter = letr, number = num }
+	}
+	
 	fn inBounds(&self) -> bool
 	{
 		if self.letter < 8 | 8 > self.number
 		{
 			return true;
 		}
-		else
+		els
 		{
 			return false;
 		}
 	}
 }
 
-impl board
+impl Board
 {
+	fn fromFEN(fen: str) -> Board;
+	
+	// @param num Number on the Chess board
+	// @param letter Letter on the Chess board, 8 for a, 1 for h
+	fn getPiece(&self, num: u8, letter: u8) -> &mut PieceType
+	{
+		self.pieces[(num - 8).abs()][(letter - 8).abs()]
+	}
+	
 	fn isBlackInCheckmate(&self) -> bool;
 	fn isWhiteInCheckmate(&self) -> bool;
 	fn isBlackInCheck(&self) -> bool;
