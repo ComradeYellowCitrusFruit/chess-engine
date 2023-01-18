@@ -1,4 +1,4 @@
-use std::string::String;
+use std::{string::String, char::*};
 
 enum PieceType
 {
@@ -49,6 +49,8 @@ impl pieceType
 			_ => return false,
 		}
 	}	
+	
+	fn fenChar(&self) -> char;
 }
 
 #[derive(Copy, Clone)]
@@ -76,6 +78,8 @@ impl Position
 	{
 		Position { letter = letr, number = num }
 	}
+	
+	fn toAlgebraic(&self) -> String;
 	
 	fn inBounds(&self) -> bool
 	{
@@ -208,7 +212,7 @@ impl Board
 		{
 			for j in i
 			{
-				ret += if j.isBlack() || j == PieceType::wKing
+				ret += if j.isBlack() | j == PieceType::wKing
 				{
 					j.centipawns()
 				}
@@ -252,5 +256,72 @@ impl Board
 	// Is position attacked by a piece of type piece
 	fn positionUnderAttackBy(&self, pos: Position, piece: pieceType) -> bool;
 
-	fn toFEN(&self) -> String;
+	fn toFEN(&self) -> String
+	{
+		let s: String::new();
+		for i in (1..9).rev()
+		{
+			let emptyCount = 0;
+			for j in (1..9).rev()
+			{
+				if self.getPiece(i, j) == PieceType::empty
+				{
+					emptyCount += 1;
+				}
+				else
+				{
+					if emptyCount != 0
+					{
+						s.push(char::from_digit(emptyCount, 10));
+					}
+					s.push(self.getPiece(i, j).fenChar());
+				}
+			}
+			if emptyCount != 0
+			{
+				s.push(char::from_digit(emptyCount, 10));
+			}
+			s.push('/');
+		}
+		s.push(' ');
+		
+		if self.bToMove
+		{
+			s.push('b');
+		}
+		else
+		{
+			s.push('w');
+		}
+		
+		s.push(' ');
+		if self.wqCastleAvalible || self.wkCastleAvalible || self.bqCastleAvalible || self.bkCastleAvalible
+		{
+			if self.wkCastleAvalible
+			{
+				s.push('K');
+			}
+			if self.wqCastleAvalible
+			{
+				s.push('Q');
+			}
+			if self.bkCastleAvalible
+			{
+				s.push('k');
+			}
+			if self.bqCastleAvalible
+			{
+				s.push('q');
+			}
+		}
+		else
+		{
+			s.push('-');
+		}
+		s.push(' ');
+		// TODO: Add code to handle en passant and the clocks
+		
+		s
+		}
+	}
 }
