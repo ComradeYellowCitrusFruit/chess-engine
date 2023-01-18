@@ -92,6 +92,11 @@ impl Position
 
 impl Board
 {
+	fn startPos() -> Board
+	{
+		Board::fromFEN("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1")
+	}
+	
 	fn fromFEN(fen: str) -> Board
 	{
 		// 0 - positions
