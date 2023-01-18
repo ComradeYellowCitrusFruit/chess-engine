@@ -1,4 +1,4 @@
-use std::{string::String, char::*};
+use std::{string::*, char::*, option::*};
 
 enum PieceType
 {
@@ -50,7 +50,24 @@ impl pieceType
 		}
 	}	
 	
-	fn fenChar(&self) -> char;
+	fn fenChar(&self) -> char
+	{
+		match self
+		{
+			wRook => return 'R',
+			wKnight => return 'N',
+			wBishop => return 'B',
+			wQueen => return 'Q',
+			wKing => return 'K',
+			wPawn => return 'P',
+			bRook => return 'r',
+			bKnight => return 'n',
+			bBishop => return 'b',
+			bQueen => return 'q',
+			bKing => return 'k',
+			bPawn => return 'p',
+		}
+	}
 }
 
 #[derive(Copy, Clone)]
@@ -61,7 +78,7 @@ struct Board
 	bqCastleAvalible: mut bool;
 	bkcastleAvalible: mut bool;
 	bToMove: mut bool;
-	enPassant: mut bool;
+	enPassant: mut Option<Position>;
 	pieces: [mut [mut PieceType; 8]; 8];
 }
 
@@ -319,9 +336,17 @@ impl Board
 			s.push('-');
 		}
 		s.push(' ');
-		// TODO: Add code to handle en passant and the clocks
 		
-		s
+		if self.enPassant.is_some()
+		{
+			s.push_str(self.enPassant.unwrap().toAlgebraic().as_str());
 		}
+		else
+		{
+			s.push('-');
+		}
+		s.push(' ');
+
+		s
 	}
 }
