@@ -97,6 +97,7 @@ impl Position
 	}
 	
 	fn toAlgebraic(&self) -> String;
+	fn fromAlgebraic(String) -> Position;
 	
 	fn inBounds(&self) -> bool
 	{
@@ -196,7 +197,17 @@ impl Board
 							}
 						},
 						3 => {
-							// TODO: Add code to handle en passant
+							if c != '-'
+							{
+								let s = String::new();
+								s.push(c);
+								s.push(c.next());
+								ret.enPassant = Some(Position::fromAlgebraic(s));
+							}
+							else
+							{
+								ret.enPassant = None;
+							}
 						},
 						_ => {},
 					}
@@ -208,7 +219,7 @@ impl Board
 	
 	// @param num Number on the Chess board
 	// @param letter Letter on the Chess board, 8 for a, 1 for h
-	fn getPiece(&self, num: u8, letter: u8) -> &mut PieceType
+	fn getPiece(&self, num: u8, letter: u8) -> Option<&mut PieceType>
 	{
 		if !Position::mkPos(num, letter).inBounds()
 		{
