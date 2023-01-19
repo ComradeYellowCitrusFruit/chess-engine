@@ -1,4 +1,4 @@
-use std::{string::String, option};
+use std::{string::String, option::Option};
 
 /*  Generate next move
 *   @param FEN The FEN string to use to generate the next move from
