@@ -112,7 +112,7 @@ impl Position
 
 impl Board
 {
-	fn startPos() -> Board
+	fn defaultPos() -> Board
 	{
 		Board::fromFEN("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1")
 	}
@@ -143,7 +143,7 @@ impl Board
 				}
 				else
 				{
-					ret.getPiece(num, letter) = match c
+					ret.getPiece(num, letter).unwrap() = match c
 					{
 						'r' => PieceType::bRook,
 						'n' => PieceType::bKnight,
@@ -242,7 +242,7 @@ impl Board
 		{
 			for j in i
 			{
-				ret += if j.isBlack() | j == PieceType::wKing
+				ret += if j.isWhite() && j != PieceType::wKing
 				{
 					j.centipawns()
 				}
@@ -264,7 +264,7 @@ impl Board
 		{
 			for j in i
 			{
-				ret += if j.isWhite() || j == PieceType::bKing
+				ret += if j.isBlack() && j != PieceType::bKing
 				{
 					j.centipawns()
 				}
@@ -281,7 +281,24 @@ impl Board
 	fn isMoveValid(&self, start: Position, destination: Position) -> bool;
 
 	// Is position attacked
-	fn positionUnderAttack(&self, pos: Position) -> bool;
+	fn positionUnderAttack(&self, pos: Position) -> bool
+	{
+		// TODO: Optimize this to use as few passes as possible.
+		(
+		self.positionUnderAttackBy(pos, PieceType::wPawn) ||
+		self.positionUnderAttackBy(pos, PieceType::bPawn) ||
+		self.positionUnderAttackBy(pos, PieceType::wRook) ||
+		self.positionUnderAttackBy(pos, PieceType::bRook) ||
+		self.positionUnderAttackBy(pos, PieceType::wBishop) ||
+		self.positionUnderAttackBy(pos, PieceType::bBishop) ||
+		self.positionUnderAttackBy(pos, PieceType::wKnight) ||
+		self.positionUnderAttackBy(pos, PieceType::bKnight) ||
+		self.positionUnderAttackBy(pos, PieceType::wQueen) ||
+		self.positionUnderAttackBy(pos, PieceType::bQueen) ||
+		self.positionUnderAttackBy(pos, PieceType::wKing) ||
+		self.positionUnderAttackBy(pos, PieceType::bKing)
+		)
+	}
 
 	// Is position attacked by a piece of type piece
 	fn positionUnderAttackBy(&self, pos: Position, piece: PieceType) -> bool
