@@ -100,14 +100,12 @@ impl Position
 	
 	fn inBounds(&self) -> bool
 	{
-		if self.letter < 8 | 8 > self.number
-		{
-			return true;
-		}
-		else
+		if self.num < 1 || self.num > 8 || self.letter < 1 || self.letter > 8
 		{
 			return false;
 		}
+
+		true
 	}
 }
 
@@ -212,6 +210,10 @@ impl Board
 	// @param letter Letter on the Chess board, 8 for a, 1 for h
 	fn getPiece(&self, num: u8, letter: u8) -> &mut PieceType
 	{
+		if !Position::mkPos(num, letter).inBounds()
+		{
+			return false;
+		}
 		self.pieces[(num - 8).abs()][(letter - 8).abs()]
 	}
 	
@@ -271,7 +273,96 @@ impl Board
 	fn positionUnderAttack(&self, pos: Position) -> bool;
 
 	// Is position attacked by a piece of type piece
-	fn positionUnderAttackBy(&self, pos: Position, piece: pieceType) -> bool;
+	fn positionUnderAttackBy(&self, pos: Position, piece: PieceType) -> bool
+	{
+		match piece
+		{
+			PieceType::wPawn =>
+			{
+				if self.getPiece(pos.num - 1, pos.letter - 1) == piece || self.getPiece(pos.num - 1, pos.letter + 1) == piece
+				{
+					return true;
+				}
+			},
+			PieceType::bPawn =>
+			{
+				if self.getPiece(pos.num + 1, pos.letter + 1) == piece || self.getPiece(pos.num + 1, pos.letter - 1) == piece
+				{
+					return true;
+				}
+			},
+			PieceType::wRook =>
+			{
+				for i in (1..9).rev()
+				{
+					if self.getPiece(pos.num + i, pos.letter) == PieceType::wRook || self.getPiece(pos.num, pos.letter + i) == PieceType::wRook
+					{
+						return true;
+					}
+				}
+			},
+			PieceType::bRook =>
+			{
+				for i in (1..9).rev()
+				{
+					if self.getPiece(pos.num + i, pos.letter) == PieceType::bRook || self.getPiece(pos.num, pos.letter + i) == PieceType::bRook
+					{
+						return true;
+					}
+				}
+			},
+			PieceType::wBishop =>
+			{
+				for i in (1..9).rev()
+				{
+					if self.getPiece(pos.num + i, pos.letter + i) == PieceType::wBishop || self.getPiece(pos.num - i, pos.letter + i) == PieceType::wBishop || self.getPiece(pos.num + i, pos.letter - i) == PieceType::wBishop || self.getPiece(pos.num - i, pos.letter - i) == PieceType::wBishop
+					{
+						return true;
+					}
+				}
+			},
+			PieceType::bBishop =>
+			{
+				for i in (1..9).rev()
+				{
+					if self.getPiece(pos.num + i, pos.letter + i) == PieceType::bBishop || self.getPiece(pos.num - i, pos.letter + i) == PieceType::bBishop || self.getPiece(pos.num + i, pos.letter - i) == PieceType::bBishop || self.getPiece(pos.num - i, pos.letter - i) == PieceType::bBishop
+					{
+						return true;
+					}
+				}
+			},
+			PieceType::wQueen =>
+			{
+				for i in (1..9).rev()
+				{
+					if self.getPiece(pos.num + i, pos.letter + i) == PieceType::wQueen || self.getPiece(pos.num - i, pos.letter + i) == PieceType::wQueen || self.getPiece(pos.num + i, pos.letter - i) == PieceType::wQueen || self.getPiece(pos.num - i, pos.letter - i) == PieceType::wQueen || self.getPiece(pos.num + i, pos.letter) == PieceType::wQueen || self.getPiece(pos.num, pos.letter + i) == PieceType::wQueen
+					{
+						return true;
+					}
+				}
+			},
+			PieceType::bQueen =>
+			{
+				for i in (1..9).rev()
+				{
+					if self.getPiece(pos.num + i, pos.letter + i) == PieceType::bQueen || self.getPiece(pos.num - i, pos.letter + i) == PieceType::bQueen || self.getPiece(pos.num + i, pos.letter - i) == PieceType::bQueen || self.getPiece(pos.num - i, pos.letter - i) == PieceType::bQueen || self.getPiece(pos.num + i, pos.letter) == PieceType::bQueen || self.getPiece(pos.num, pos.letter + i) == PieceType::bQueen
+					{
+						return true;
+					}
+				}
+			},
+			PieceType::wKing =>
+			{
+				if self.getPiece(pos.num + 1, pos.letter + 1) == PieceType::wKing || self.getPiece(pos.num + 1, pos.letter) == PieceType::wKing || self.getPiece(pos.num + 1, pos.letter - 1) == PieceType::wKing || self.getPiece(pos.num, pos.letter + 1) == PieceType::wKing || self.getPiece(pos.num - 1, pos.letter + 1) == PieceType::wKing || self.getPiece(pos.num, pos.letter) == PieceType::wKing || self.getPiece(pos.num - 1, pos.letter - 1) == PieceType::wKing
+			},
+			PieceType::wKing =>
+			{
+				if self.getPiece(pos.num + 1, pos.letter + 1) == PieceType::bKing || self.getPiece(pos.num + 1, pos.letter) == PieceType::bKing || self.getPiece(pos.num + 1, pos.letter - 1) == PieceType::bKing || self.getPiece(pos.num, pos.letter + 1) == PieceType::bKing || self.getPiece(pos.num - 1, pos.letter + 1) == PieceType::bKing || self.getPiece(pos.num, pos.letter) == PieceType::bKing || self.getPiece(pos.num - 1, pos.letter - 1) == PieceType::bKing
+			},
+			// TODO: Add the knight
+		}
+		false
+	}
 
 	fn toFEN(&self) -> String
 	{
@@ -336,7 +427,7 @@ impl Board
 			s.push('-');
 		}
 		s.push(' ');
-		
+
 		if self.enPassant.is_some()
 		{
 			s.push_str(self.enPassant.unwrap().toAlgebraic().as_str());
