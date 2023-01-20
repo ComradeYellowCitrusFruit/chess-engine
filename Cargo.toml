@@ -7,7 +7,7 @@ readme = "README.md"
 license = "GPL-3.0-or-later"
 repository = "https://github.com/ComradeYellowCitrusFruit/chess-engine"
 keywords = ["chess"]
-include = ["/src"]
+include = ["/src", "/LICENSE.md"]
 
 [dependencies]
 cxx = "1.0"
