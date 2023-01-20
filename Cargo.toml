@@ -9,6 +9,12 @@ repository = "https://github.com/ComradeYellowCitrusFruit/chess-engine"
 keywords = ["chess"]
 include = ["/src"]
 
+[dependencies]
+cxx = "1.0"
+
+[build-dependencies]
+cxx-build = "1.0"
+
 [profile.dev]
 opt-level = 0
 overflow-checks = false

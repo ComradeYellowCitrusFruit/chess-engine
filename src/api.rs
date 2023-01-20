@@ -1,4 +1,5 @@
-use std::{string::String, option::Option};
+use std::{string::String, option::Option, ffi::*};
+use cxx::*;
 
 /*  Generate next move
 *   @param FEN The FEN string to use to generate the next move from
@@ -19,7 +20,6 @@ pub fn getCheckmateStatus(FEN: &str) -> u8;
 */
 pub fn isLegal(FEN: &str, AN: &str) -> bool;
 
-<<<<<<< HEAD
 #[cxx::bridge]
 mod ffi
 {
@@ -46,6 +46,3 @@ mod ffi
         pub fn isLegal(FEN: &str, AN: &str) -> bool;
     }
 }
-=======
-// TODO: Add a cxx bridge
->>>>>>> 69082e29b37b4ee0817ce4ca2de694cbee00e4ea
