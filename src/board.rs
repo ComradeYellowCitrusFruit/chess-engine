@@ -1,3 +1,9 @@
+/*
+*   name: src/board.rs
+*   author: https://github.com/ComradeYellowCitrusFruit
+*   license: GPL-3.0-only
+*/
+
 use std::{string::*, char::*, option::*};
 
 enum PieceType
@@ -17,7 +23,7 @@ enum PieceType
 	wQueen,
 }
 
-impl pieceType
+impl PieceType
 {
 	fn centipawns(&self) -> i32
 	{
@@ -258,7 +264,7 @@ impl Board
 	// Calculate black's centipawn rating
 	fn blackCentipawns(&self) -> i32
 	{
-		let ret: i32 = 0;
+		let mut ret: i32 = 0;
 
 		for i in pieces
 		{
@@ -463,7 +469,7 @@ impl Board
 
 	fn toFEN(&self) -> String
 	{
-		let s: String::new();
+		let mut s = String::new();
 		for i in (1..9).rev()
 		{
 			let emptyCount = 0;

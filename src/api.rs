@@ -1,3 +1,9 @@
+/*
+*   name: src/api.rs
+*   author: https://github.com/ComradeYellowCitrusFruit
+*   license: GPL-3.0-only
+*/
+
 use std::{string::String, option::Option, ffi::*};
 use cxx::*;
 
@@ -5,7 +11,16 @@ use cxx::*;
 *   @param FEN The FEN string to use to generate the next move from
 *   @param depth How many moves to think ahead, less means a dumber AI, faster compuation, and less memory used
 */
-pub fn generateMove(FEN: &str, depth: i16) -> Option<String>;
+pub fn generateMove(FEN: &str, depth: i16) -> Option<String>
+{
+    let mut board = Board::fromFEN(FEN);
+    if board.isBlackInCheckmate() || board.isWhiteInCheckmate()
+    {
+        return None;
+    }
+
+    
+}
 
 /*  Get checkmate status, as bitflags
 *   bit 0 - Set if white is in checkmate
