@@ -1,11 +1,11 @@
 use std::{cmp::*};
 
 // Perform alpha-beta pruning search for the best move, fail hard version
-fn alphabeta(node: Board, depth: i8, alpha: i64, beta: i64) -> i64
+fn alphabeta(node: Board, depth: i8, alpha: i64, beta: i64, isBlack: bool) -> i64
 {
     if depth == 0
     {
-        if node.bToMove
+        if isBlack
         {
             return if node.isWhiteInCheckmate()
             {
@@ -34,7 +34,7 @@ fn alphabeta(node: Board, depth: i8, alpha: i64, beta: i64) -> i64
     // Exists in seperate branch I haven't been able to push yet
     for i in node.generateMoves()
     {
-        value = max(value, alphabeta(i, depth - 1, alpha, beta));
+        value = max(value, alphabeta(i, depth - 1, alpha, beta, isBlack));
         if value > beta
         {
             break;
