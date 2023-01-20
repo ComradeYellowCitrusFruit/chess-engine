@@ -8,9 +8,9 @@ use std::{vec::*};
 
 impl Board
 {
-    // Generate all legal moves (not include checkmate illegality or en passant)
-    fn generateMoves(&self) -> Vec<Board>;
+	// Generate all legal moves (not include checkmate illegality or en passant)
+	fn generateMoves(&self) -> Vec<Board>;
 
-    // Validate move
+	// Validate move
 	fn isMoveValid(&self, start: Position, destination: Position) -> bool;
 }

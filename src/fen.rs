@@ -6,7 +6,7 @@
 
 impl PieceType
 {
-    fn fenChar(&self) -> char
+	fn fenChar(&self) -> char
 	{
 		match self
 		{
@@ -28,7 +28,7 @@ impl PieceType
 
 impl Board
 {
-    fn defaultPos() -> Board
+	fn defaultPos() -> Board
 	{
 		Board::fromFEN("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1")
 	}
@@ -133,7 +133,7 @@ impl Board
 		ret
 	}
 
-    fn toFEN(&self) -> String
+	fn toFEN(&self) -> String
 	{
 		let mut s = String::new();
 		for i in (1..9).rev()

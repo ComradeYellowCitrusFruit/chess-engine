@@ -34,24 +34,63 @@ impl Position
 
 impl Board
 {
-    // Is position attacked
+	// Is position attacked
 	fn positionUnderAttack(&self, pos: Position) -> bool
 	{
-		// TODO: Optimize this to use as few passes as possible.
-		(
-		self.positionUnderAttackBy(pos, PieceType::wPawn) ||
-		self.positionUnderAttackBy(pos, PieceType::bPawn) ||
-		self.positionUnderAttackBy(pos, PieceType::wRook) ||
-		self.positionUnderAttackBy(pos, PieceType::bRook) ||
-		self.positionUnderAttackBy(pos, PieceType::wBishop) ||
-		self.positionUnderAttackBy(pos, PieceType::bBishop) ||
-		self.positionUnderAttackBy(pos, PieceType::wKnight) ||
-		self.positionUnderAttackBy(pos, PieceType::bKnight) ||
-		self.positionUnderAttackBy(pos, PieceType::wQueen) ||
-		self.positionUnderAttackBy(pos, PieceType::bQueen) ||
-		self.positionUnderAttackBy(pos, PieceType::wKing) ||
-		self.positionUnderAttackBy(pos, PieceType::bKing)
-		)
+		// Check for knights first, then pawns, then kings, and then perform a full pass
+
+		// Knight, pawn and king check, this is probably the fastest and most concise way to do it
+		if  self.positionUnderAttackBy(pos, PieceType::wKnight) ||
+			self.positionUnderAttackBy(pos, PieceType::bKnight) ||
+			self.positionUnderAttackBy(pos, PieceType::wPawn) ||
+			self.positionUnderAttackBy(pos, PieceType::bPawn) ||
+			self.positionUnderAttackBy(pos, PieceType::wKing) ||
+			self.positionUnderAttackBy(pos, PieceType::bKing)
+		{
+			return true;
+		}
+
+		// Perform the pass for rooks, bishops and queens
+		for i in 1..9
+		{
+			if	self.getPiece(pos.num + i, pos.letter) == PieceType::wRook ||
+				self.getPiece(pos.num - i, pos.letter) == PieceType::wRook ||
+				self.getPiece(pos.num, pos.letter + i) == PieceType::wRook ||
+				self.getPiece(pos.num, pos.letter - i) == PieceType::wRook ||
+				self.getPiece(pos.num + i, pos.letter) == PieceType::bRook ||
+				self.getPiece(pos.num - i, pos.letter) == PieceType::bRook ||
+				self.getPiece(pos.num, pos.letter + i) == PieceType::bRook ||
+				self.getPiece(pos.num, pos.letter - i) == PieceType::bRook ||
+				self.getPiece(pos.num + i, pos.letter + i) == PieceType::wBishop ||
+				self.getPiece(pos.num - i, pos.letter - i) == PieceType::wBishop ||
+				self.getPiece(pos.num - i, pos.letter + i) == PieceType::wBishop ||
+				self.getPiece(pos.num + i, pos.letter - i) == PieceType::wBishop ||
+				self.getPiece(pos.num + i, pos.letter + i) == PieceType::bBishop ||
+				self.getPiece(pos.num - i, pos.letter - i) == PieceType::bBishop ||
+				self.getPiece(pos.num - i, pos.letter + i) == PieceType::bBishop ||
+				self.getPiece(pos.num + i, pos.letter - i) == PieceType::bBishop ||
+				self.getPiece(pos.num + i, pos.letter) == PieceType::wQueen ||
+				self.getPiece(pos.num - i, pos.letter) == PieceType::wQueen ||
+				self.getPiece(pos.num, pos.letter + i) == PieceType::wQueen ||
+				self.getPiece(pos.num, pos.letter - i) == PieceType::wQueen ||
+				self.getPiece(pos.num + i, pos.letter + i) == PieceType::wQueen ||
+				self.getPiece(pos.num - i, pos.letter - i) == PieceType::wQueen ||
+				self.getPiece(pos.num - i, pos.letter + i) == PieceType::wQueen ||
+				self.getPiece(pos.num + i, pos.letter - i) == PieceType::wQueen ||
+				self.getPiece(pos.num + i, pos.letter) == PieceType::bQueen ||
+				self.getPiece(pos.num - i, pos.letter) == PieceType::bQueen ||
+				self.getPiece(pos.num, pos.letter + i) == PieceType::bQueen ||
+				self.getPiece(pos.num, pos.letter - i) == PieceType::bQueen ||
+				self.getPiece(pos.num + i, pos.letter + i) == PieceType::bQueen ||
+				self.getPiece(pos.num - i, pos.letter - i) == PieceType::bQueen ||
+				self.getPiece(pos.num - i, pos.letter + i) == PieceType::bQueen ||
+				self.getPiece(pos.num + i, pos.letter - i) == PieceType::bQueen
+			{
+				return true;
+			}
+		}
+		
+		false
 	}
 
 	// Is position attacked by a piece of type piece
@@ -77,7 +116,7 @@ impl Board
 			},
 			PieceType::wRook =>
 			{
-				for i in (1..9).rev()
+				for i in 1..9
 				{
 					if	self.getPiece(pos.num + i, pos.letter) == PieceType::wRook ||
 						self.getPiece(pos.num, pos.letter + i) == PieceType::wRook
@@ -88,7 +127,7 @@ impl Board
 			},
 			PieceType::bRook =>
 			{
-				for i in (1..9).rev()
+				for i in 1..9
 				{
 					if	self.getPiece(pos.num + i, pos.letter) == PieceType::bRook ||
 						self.getPiece(pos.num, pos.letter + i) == PieceType::bRook
@@ -99,7 +138,7 @@ impl Board
 			},
 			PieceType::wBishop =>
 			{
-				for i in (1..9).rev()
+				for i in 1..9
 				{
 					if	self.getPiece(pos.num + i, pos.letter + i) == PieceType::wBishop ||
 						self.getPiece(pos.num - i, pos.letter + i) == PieceType::wBishop ||
@@ -112,7 +151,7 @@ impl Board
 			},
 			PieceType::bBishop =>
 			{
-				for i in (1..9).rev()
+				for i in 1..9
 				{
 					if	self.getPiece(pos.num + i, pos.letter + i) == PieceType::bBishop ||
 						self.getPiece(pos.num - i, pos.letter + i) == PieceType::bBishop ||
@@ -125,14 +164,16 @@ impl Board
 			},
 			PieceType::wQueen =>
 			{
-				for i in (1..9).rev()
+				for i in 1..9
 				{
 					if	self.getPiece(pos.num + i, pos.letter + i) == PieceType::wQueen ||
 						self.getPiece(pos.num - i, pos.letter + i) == PieceType::wQueen ||
 						self.getPiece(pos.num + i, pos.letter - i) == PieceType::wQueen || 
 						self.getPiece(pos.num - i, pos.letter - i) == PieceType::wQueen ||
 						self.getPiece(pos.num + i, pos.letter) == PieceType::wQueen ||
-						self.getPiece(pos.num, pos.letter + i) == PieceType::wQueen
+						self.getPiece(pos.num - i, pos.letter) == PieceType::wQueen ||
+						self.getPiece(pos.num, pos.letter + i) == PieceType::wQueen ||
+						self.getPiece(pos.num, pos.letter - i) == PieceType::wQueen
 					{
 						return true;
 					}
@@ -140,14 +181,16 @@ impl Board
 			},
 			PieceType::bQueen =>
 			{
-				for i in (1..9).rev()
+				for i in 1..9
 				{
 					if	self.getPiece(pos.num + i, pos.letter + i) == PieceType::bQueen || 
 						self.getPiece(pos.num - i, pos.letter + i) == PieceType::bQueen || 
 						self.getPiece(pos.num + i, pos.letter - i) == PieceType::bQueen || 
 						self.getPiece(pos.num - i, pos.letter - i) == PieceType::bQueen || 
-						self.getPiece(pos.num + i, pos.letter) == PieceType::bQueen || 
-						self.getPiece(pos.num, pos.letter + i) == PieceType::bQueen
+						self.getPiece(pos.num + i, pos.letter) == PieceType::bQueen ||
+						self.getPiece(pos.num - i, pos.letter) == PieceType::bQueen ||
+						self.getPiece(pos.num, pos.letter + i) == PieceType::bQueen ||
+						self.getPiece(pos.num, pos.letter - i) == PieceType::bQueen
 					{
 						return true;
 					}
