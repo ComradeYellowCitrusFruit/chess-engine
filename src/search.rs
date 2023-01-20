@@ -1,7 +1,7 @@
 use std::{cmp::*};
 
 // Perform alpha-beta pruning search for the best move, fail hard version
-fn alphabeta(node: Board, depth: i8, alpha: i64, beta: i64, isBlack: bool) -> i64
+fn alphabeta(node: Board, depth: i16, alpha: i64, beta: i64, isBlack: bool) -> i64
 {
     if depth == 0
     {
