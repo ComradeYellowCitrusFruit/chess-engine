@@ -4,24 +4,26 @@
 *   license: GPL-3.0-only
 */
 
-use std::{core::*, string::*, char::*, option::*};
+use std::{string::*, char::*, option::*};
+
+pub use crate::{ fen::*, moves::*, position::Position, piece::PieceType };
 
 #[derive(Copy, Clone)]
-struct Board
+pub struct Board
 {
-	wqCastleAvalible: bool,
-	wkcastleAvalible: bool,
-	bqCastleAvalible: bool,
-	bkcastleAvalible: bool,
-	bToMove: bool,
-	enPassant: Option<Position>,
-	pieces: [[PieceType; 8]; 8],
+	pub wqCastleAvalible: bool,
+	pub wkcastleAvalible: bool,
+	pub bqCastleAvalible: bool,
+	pub bkcastleAvalible: bool,
+	pub bToMove: bool,
+	pub enPassant: Option<Position>,
+	pub pieces: [[PieceType; 8]; 8],
 }
 
 impl Board
 {
-	fn isBlackInCheckmate(&self) -> bool;
-	fn isWhiteInCheckmate(&self) -> bool;
-	fn isBlackInCheck(&self) -> bool;
-	fn isWhiteInCheck(&self) -> bool;
+	pub fn isBlackInCheckmate(&self) -> bool;
+	pub fn isWhiteInCheckmate(&self) -> bool;
+	pub fn isBlackInCheck(&self) -> bool;
+	pub fn isWhiteInCheck(&self) -> bool;
 }

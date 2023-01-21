@@ -4,7 +4,7 @@
 *   license: GPL-3.0-only
 */
 
-use std::{string::String, option::Option, ffi::*, vec::Vec};
+use std::{string::*, option::*, vec::*};
 use cxx::*;
 
 mod board;
@@ -14,6 +14,8 @@ mod piece;
 mod position;
 mod search;
 
+pub use crate::{ board::Board, fen::*, moves::*, position::Position, search::alphabeta, piece::PieceType };
+
 /*  Generate next move
 *   @param FEN The FEN string to use to generate the next move from
 *   @param depth How many moves to think ahead, less means a dumber AI, faster compuation, and less memory used
@@ -22,25 +24,25 @@ pub fn generateMove(FEN: &str, depth: i16) -> Option<String>
 {
 	let b = Board::fromFEN(FEN);
 	let nodes = b.generateMoves();
-	let nodeScores: Vec<i64> = Vec::with_capacity(nodes.len());
+	let node_scores: Vec<i64> = Vec::with_capacity(nodes.len());
 	let br: Board;
 	let sr: i64 = 0;
 
 	for i in nodes.iter()
 	{
-		nodeScores.push(alphabeta(i, depth - 1, i64::MIN, i64::MAX, b.bToMove));
+		node_scores.push(alphabeta(i, depth - 1, i64::MIN, i64::MAX, b.bToMove));
 	}
 
 	for i in 0..nodes.len()
 	{
-		if(nodeScores[i] > sr)
+		if node_scores[i] > sr
 		{
-			sr = nodeScores[i];
+			sr = node_scores[i];
 			br = nodes[i];
 		}
 	}
 
-	br.toFEN()
+	Some(br.toFEN())
 }
 
 /*  Get checkmate status, as bitflags

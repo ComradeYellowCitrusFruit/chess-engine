@@ -6,11 +6,17 @@
 
 use std::{vec::*};
 
+pub use crate::board::*;
+pub use crate::fen::*;
+pub use crate::piece::*;
+pub use crate::position::*;
+pub use crate::search::*;
+
 impl Board
 {
 	// Generate all legal moves (not include checkmate illegality or en passant)
-	fn generateMoves(&self) -> Vec<Board>;
+	pub fn generateMoves(&self) -> Vec<Board>;
 
 	// Validate move
-	fn isMoveValid(&self, start: Position, destination: Position) -> bool;
+	pub fn isMoveValid(&self, start: Position, destination: Position) -> bool;
 }

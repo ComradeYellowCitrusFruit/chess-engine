@@ -6,8 +6,10 @@
 
 use std::{cmp::*};
 
+pub use crate::{ board::Board, fen::*, moves::*, position::Position, piece::PieceType };
+
 // Perform alpha-beta pruning search for the best move, fail hard version
-fn alphabeta(node: Board, depth: i16, alpha: i64, beta: i64, isBlack: bool) -> i64
+pub fn alphabeta(node: Board, depth: i16, alpha: i64, beta: i64, isBlack: bool) -> i64
 {
     if depth == 0
     {
@@ -15,7 +17,7 @@ fn alphabeta(node: Board, depth: i16, alpha: i64, beta: i64, isBlack: bool) -> i
         {
             return if node.isWhiteInCheckmate()
             {
-                node.blackCentipawns() - node.whiteCentipawns() + PieceType::wKing.centipawns()
+                node.blackCentipawns() - node.whiteCentipawns() + PieceType::WKing.centipawns()
             }
             else
             {
@@ -26,7 +28,7 @@ fn alphabeta(node: Board, depth: i16, alpha: i64, beta: i64, isBlack: bool) -> i
         {
             return if node.isWhiteInCheckmate()
             {
-                node.whiteCentipawns() - node.blackCentipawns() + PieceType::bKing.centipawns()
+                node.whiteCentipawns() - node.blackCentipawns() + PieceType::BKing.centipawns()
             }
             else
             {

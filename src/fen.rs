@@ -4,7 +4,9 @@
 *   license: GPL-3.0-only
 */
 
-use std::{option::*, string::*};
+use std::{option::*, string::*, str::*};
+
+pub use crate::{ board::Board, moves::*, position::Position, piece::PieceType };
 
 impl PieceType
 {
@@ -30,12 +32,12 @@ impl PieceType
 
 impl Board
 {
-	fn defaultPos() -> Board
+	pub fn defaultPos() -> Board
 	{
 		Board::fromFEN("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1")
 	}
 	
-	fn fromFEN(fen: str) -> Board
+	pub fn fromFEN(fen: str) -> Board
 	{
 		// 0 - positions
 		// 1 - To Move
@@ -53,9 +55,9 @@ impl Board
 			bkCastleAvalible: false,
 			bToMove: false,
 			enPassant: None,
-			pieces: [[PieceType::empty; 8]; 8] 
+			pieces: [[PieceType::Empty; 8]; 8],
 		};
-		for c in str.chars()
+		for c: char in fen.chars().into_iter()
 		{
 			if num != 1 && letter != 0
 			{
@@ -71,19 +73,19 @@ impl Board
 				{
 					ret.getPiece(num, letter).unwrap() = match c
 					{
-						'r' => PieceType::bRook,
-						'n' => PieceType::bKnight,
-						'b' => PieceType::bBishop,
-						'q' => PieceType::bQueen,
-						'k' => PieceType::bKing,
-						'p' => PieceType::bPawn,
-						'R' => PieceType::wRook,
-						'N' => PieceType::wKnight,
-						'B' => PieceType::wBishop,
-						'Q' => PieceType::wQueen,
-						'K' => PieceType::wKing,
-						'P' => PieceType::wPawn,
-						_ => PieceType::empty,
+						'r' => piece::PieceType::BRook,
+						'n' => piece::PieceType::BKnight,
+						'b' => piece::PieceType::BBishop,
+						'q' => piece::PieceType::BQueen,
+						'k' => piece::PieceType::BKing,
+						'p' => piece::PieceType::BPawn,
+						'R' => piece::PieceType::WRook,
+						'N' => piece::PieceType::WKnight,
+						'B' => piece::PieceType::WBishop,
+						'Q' => piece::PieceType::WQueen,
+						'K' => piece::PieceType::WKing,
+						'P' => piece::PieceType::WPawn,
+						_ => piece::PieceType::Empty,
 					};
 					letter -= 1;
 				}
@@ -143,7 +145,7 @@ impl Board
 		ret
 	}
 
-	fn toFEN(&self) -> String
+	pub fn toFEN(&self) -> String
 	{
 		let mut s = String::new();
 		for i in (1..9).rev()
@@ -151,7 +153,7 @@ impl Board
 			let emptyCount = 0;
 			for j in (1..9).rev()
 			{
-				if self.getPiece(i, j) == PieceType::empty
+				if self.getPiece(i, j) == PieceType::Empty
 				{
 					emptyCount += 1;
 				}
