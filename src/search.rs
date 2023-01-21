@@ -1,3 +1,9 @@
+/*
+*   name: src/search.rs
+*   author: https://github.com/ComradeYellowCitrusFruit
+*   license: GPL-3.0-only
+*/
+
 use std::{cmp::*};
 
 // Perform alpha-beta pruning search for the best move, fail hard version

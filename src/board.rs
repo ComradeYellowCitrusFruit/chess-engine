@@ -4,18 +4,17 @@
 *   license: GPL-3.0-only
 */
 
-use std::{string::*, char::*, option::*};
+use std::{core::*, string::*, char::*, option::*};
 
-#[derive(Copy, Clone)]
 struct Board
 {
-	wqCastleAvalible: mut bool;
-	wkcastleAvalible: mut bool;
-	bqCastleAvalible: mut bool;
-	bkcastleAvalible: mut bool;
-	bToMove: mut bool;
-	enPassant: mut Option<Position>;
-	pieces: [mut [mut PieceType; 8]; 8];
+	wqCastleAvalible: mut bool,
+	wkcastleAvalible: mut bool,
+	bqCastleAvalible: mut bool,
+	bkcastleAvalible: mut bool,
+	bToMove: mut bool,
+	enPassant: mut Option<Position>,
+	pieces: [mut [mut PieceType; 8]; 8],
 }
 
 impl Board

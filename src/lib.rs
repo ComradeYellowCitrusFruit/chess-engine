@@ -1,11 +1,18 @@
 /*
-*   name: src/api.rs
+*   name: src/lib.rs
 *   author: https://github.com/ComradeYellowCitrusFruit
 *   license: GPL-3.0-only
 */
 
 use std::{string::String, option::Option, ffi::*, vec::Vec};
 use cxx::*;
+
+mod board;
+mod fen;
+mod moves;
+mod piece;
+mod position;
+mod search;
 
 /*  Generate next move
 *   @param FEN The FEN string to use to generate the next move from
