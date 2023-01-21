@@ -4,6 +4,8 @@
 *   license: GPL-3.0-only
 */
 
+use std::{option::*, string::*};
+
 impl PieceType
 {
 	fn fenChar(&self) -> char
@@ -44,7 +46,15 @@ impl Board
 		let sectionOfFen = 0;
 		let num = 8;
 		let letter = 8;
-		let ret = Board { wqCastleAvalible = false, wkCastleAvalible = false, bqCastleAvalible = false, bkCastleAvalible = false, bToMove = false, enPassant = false, pieces = [[PieceType::empty; 8]; 8] };
+		let ret = Board {
+			wqCastleAvalible: false,
+			wkCastleAvalible: false,
+			bqCastleAvalible: false,
+			bkCastleAvalible: false,
+			bToMove: false,
+			enPassant: None,
+			pieces: [[PieceType::empty; 8]; 8] 
+		};
 		for c in str.chars()
 		{
 			if num != 1 && letter != 0

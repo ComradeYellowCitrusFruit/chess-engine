@@ -6,6 +6,7 @@
 
 use std::{core::*, string::*, char::*, option::*};
 
+#[derive(Copy, Clone)]
 struct Board
 {
 	wqCastleAvalible: bool,

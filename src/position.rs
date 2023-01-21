@@ -4,22 +4,24 @@
 *   license: GPL-3.0-only
 */
 
+use std::{string::*};
+
 #[derive(Copy, Clone)]
 struct Position
 {
-	letter: u8;
-	number: u8;
+	letter: u8,
+	number: u8,
 }
 
 impl Position
 {
 	fn mkPos(num: u64, letr: u64) -> Position
 	{
-		Position { letter = letr, number = num }
+		Position { letter: letr, number: num }
 	}
 	
 	fn toAlgebraic(&self) -> String;
-	fn fromAlgebraic(String) -> Position;
+	fn fromAlgebraic(s: String) -> Position;
 	
 	fn inBounds(&self) -> bool
 	{
