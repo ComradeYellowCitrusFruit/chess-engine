@@ -8,13 +8,13 @@ use std::{core::*, string::*, char::*, option::*};
 
 struct Board
 {
-	wqCastleAvalible: mut bool,
-	wkcastleAvalible: mut bool,
-	bqCastleAvalible: mut bool,
-	bkcastleAvalible: mut bool,
-	bToMove: mut bool,
-	enPassant: mut Option<Position>,
-	pieces: [mut [mut PieceType; 8]; 8],
+	wqCastleAvalible: bool,
+	wkcastleAvalible: bool,
+	bqCastleAvalible: bool,
+	bkcastleAvalible: bool,
+	bToMove: bool,
+	enPassant: Option<Position>,
+	pieces: [[PieceType; 8]; 8],
 }
 
 impl Board
