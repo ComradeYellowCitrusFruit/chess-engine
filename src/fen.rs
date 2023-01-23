@@ -57,7 +57,7 @@ impl Board
 			enPassant: None,
 			pieces: [[PieceType::Empty; 8]; 8],
 		};
-		for c: char in fen.chars().into_iter()
+		for c in fen.chars().into_iter()
 		{
 			if num != 1 && letter != 0
 			{
@@ -73,19 +73,19 @@ impl Board
 				{
 					ret.getPiece(num, letter).unwrap() = match c
 					{
-						'r' => piece::PieceType::BRook,
-						'n' => piece::PieceType::BKnight,
-						'b' => piece::PieceType::BBishop,
-						'q' => piece::PieceType::BQueen,
-						'k' => piece::PieceType::BKing,
-						'p' => piece::PieceType::BPawn,
-						'R' => piece::PieceType::WRook,
-						'N' => piece::PieceType::WKnight,
-						'B' => piece::PieceType::WBishop,
-						'Q' => piece::PieceType::WQueen,
-						'K' => piece::PieceType::WKing,
-						'P' => piece::PieceType::WPawn,
-						_ => piece::PieceType::Empty,
+						'r' => PieceType::BRook,
+						'n' => PieceType::BKnight,
+						'b' => PieceType::BBishop,
+						'q' => PieceType::BQueen,
+						'k' => PieceType::BKing,
+						'p' => PieceType::BPawn,
+						'R' => PieceType::WRook,
+						'N' => PieceType::WKnight,
+						'B' => PieceType::WBishop,
+						'Q' => PieceType::WQueen,
+						'K' => PieceType::WKing,
+						'P' => PieceType::WPawn,
+						_ => PieceType::Empty,
 					};
 					letter -= 1;
 				}

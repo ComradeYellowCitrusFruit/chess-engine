@@ -57,7 +57,7 @@ impl PieceType
 	}	
 }
 
-impl board::Board
+impl Board
 {
 	// @param num Number on the Chess board
 	// @param letter Letter on the Chess board, 8 for a, 1 for h
