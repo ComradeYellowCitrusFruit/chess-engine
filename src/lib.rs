@@ -3,6 +3,7 @@
 *   author: https://github.com/ComradeYellowCitrusFruit
 *   license: GPL-3.0-only
 */
+extern crate cxx;
 
 use std::{string::*, option::*, vec::*};
 use cxx::*;

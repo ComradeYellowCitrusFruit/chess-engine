@@ -75,7 +75,7 @@ impl Board
 	{
 		let ret: i32 = 0;
 
-		for i in pieces
+		for i in self.pieces
 		{
 			for j in i
 			{
@@ -97,7 +97,7 @@ impl Board
 	{
 		let mut ret: i32 = 0;
 
-		for i in pieces
+		for i in self.pieces
 		{
 			for j in i
 			{

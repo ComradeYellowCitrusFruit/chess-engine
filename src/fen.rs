@@ -71,7 +71,7 @@ impl Board
 				}
 				else
 				{
-					ret.getPiece(num, letter).unwrap() = match c
+					*ret.getPiece(num, letter).unwrap() = match c
 					{
 						'r' => PieceType::BRook,
 						'n' => PieceType::BKnight,
