@@ -71,7 +71,7 @@ impl Board
 	}
 
 		// Calculate white's centipawn rating
-	fn whiteCentipawns(&self) -> i32
+	pub fn whiteCentipawns(&self) -> i32
 	{
 		let ret: i32 = 0;
 
@@ -93,7 +93,7 @@ impl Board
 	}
 
 	// Calculate black's centipawn rating
-	fn blackCentipawns(&self) -> i32
+	pub fn blackCentipawns(&self) -> i32
 	{
 		let mut ret: i32 = 0;
 
