@@ -17,7 +17,6 @@ impl Board
 	// Generate all legal moves (en passant and checkmate not included)
 	pub fn generateMoves(&self) -> Vec<Board>
 	{
-		// TODO: Redo all of this
 		let vec: Vec<Board> = Vec::new();
 		for i in 1..9
 		{
@@ -33,7 +32,7 @@ impl Board
 					continue
 				};
 
-				// TODO: Add code to handle knights, kings, and pawns
+				// TODO: Add code to handle kings, and pawns
 				match *p
 				{
 					PieceType::BBishop | PieceType::WBishop =>
@@ -47,12 +46,16 @@ impl Board
 							if b.getPiece(i + k, j + k).is_some()
 							{
 								let tmpb = b;
-								let p = *tmpb.getPiece(i + k, j + k).unwrap();
-								*tmpb.getPiece(i + k, j + k).unwrap() = *p;
-								*tmpb.getPiece(i, j).unwrap() = PieceType::Empty;
-								tmpb.bToMove = !tmpb.bToMove;
-								vec.push(tmpb);
-								if p != PieceType::Empty
+								let P = *tmpb.getPiece(i + k, j + k).unwrap();
+								if (P.isBlack() != p.isBlack()) | P == PieceType::Empty
+								{
+									*tmpb.getPiece(i + k, j + k).unwrap() = *p;
+									*tmpb.getPiece(i, j).unwrap() = PieceType::Empty;
+									tmpb.bToMove = !tmpb.bToMove;
+									vec.push(tmpb);
+								}
+								
+								if P != PieceType::Empty
 								{
 									break;
 								}
@@ -60,11 +63,15 @@ impl Board
 							if b.getPiece(i - k, j - k).is_some()
 							{
 								let tmpb = b;
-								let p = *tmpb.getPiece(i + k, j + k).unwrap();
-								*tmpb.getPiece(i - k, j - k).unwrap() = *p;
-								*tmpb.getPiece(i, j).unwrap() = PieceType::Empty;
-								tmpb.bToMove = !tmpb.bToMove;
-								vec.push(tmpb);
+								let P = *tmpb.getPiece(i + k, j + k).unwrap();
+								if (P.isBlack() != p.isBlack()) | P == PieceType::Empty
+								{
+									*tmpb.getPiece(i - k, j - k).unwrap() = *p;
+									*tmpb.getPiece(i, j).unwrap() = PieceType::Empty;
+									tmpb.bToMove = !tmpb.bToMove;
+									vec.push(tmpb);
+								}
+
 								if p != PieceType::Empty
 								{
 									break;
@@ -84,10 +91,14 @@ impl Board
 							if b.getPiece(i + k, j).is_some()
 							{
 								let tmpb = b;
-								let p = *tmpb.getPiece(i + k, j + k).unwrap();
-								*tmpb.getPiece(i + k, j).unwrap() = *p;
-								tmpb.bToMove = !tmpb.bToMove;
-								vec.push(tmpb);
+								let P = *tmpb.getPiece(i + k, j + k).unwrap();
+								if (P.isBlack() != p.isBlack()) | P == PieceType::Empty
+								{
+									*tmpb.getPiece(i + k, j).unwrap() = *p;
+									tmpb.bToMove = !tmpb.bToMove;
+									vec.push(tmpb);
+								}
+
 								if p != PieceType::Empty
 								{
 									break;
@@ -96,10 +107,14 @@ impl Board
 							if b.getPiece(i - k, j).is_some()
 							{
 								let tmpb = b;
-								let p = *tmpb.getPiece(i + k, j + k).unwrap();
-								*tmpb.getPiece(i - k, j).unwrap() = *p;
-								tmpb.bToMove = !tmpb.bToMove;
-								vec.push(tmpb);
+								let P= *tmpb.getPiece(i + k, j + k).unwrap();
+								if (P.isBlack() != p.isBlack()) | P == PieceType::Empty
+								{
+									*tmpb.getPiece(i - k, j).unwrap() = *p;
+									tmpb.bToMove = !tmpb.bToMove;
+									vec.push(tmpb);
+								}
+
 								if p != PieceType::Empty
 								{
 									break;
@@ -108,10 +123,14 @@ impl Board
 							if b.getPiece(i, j + k).is_some()
 							{
 								let tmpb = b;
-								let p = *tmpb.getPiece(i + k, j + k).unwrap();
-								*tmpb.getPiece(i, j + k).unwrap() = *p;
-								tmpb.bToMove = !tmpb.bToMove;
-								vec.push(tmpb);
+								let P = *tmpb.getPiece(i + k, j + k).unwrap();
+								if (P.isBlack() != p.isBlack()) | P == PieceType::Empty
+								{
+									*tmpb.getPiece(i, j + k).unwrap() = *p;
+									tmpb.bToMove = !tmpb.bToMove;
+									vec.push(tmpb);
+								}
+								
 								if p != PieceType::Empty
 								{
 									break;
@@ -120,10 +139,14 @@ impl Board
 							if b.getPiece(i, j - k).is_some()
 							{
 								let tmpb = b;
-								let p = *tmpb.getPiece(i + k, j + k).unwrap();
-								*tmpb.getPiece(i, j - k).unwrap() = *p;
-								tmpb.bToMove = !tmpb.bToMove;
-								vec.push(tmpb);
+								let P = *tmpb.getPiece(i + k, j + k).unwrap();
+								if (P.isBlack() != p.isBlack()) | P == PieceType::Empty
+								{
+									*tmpb.getPiece(i, j - k).unwrap() = *p;
+									tmpb.bToMove = !tmpb.bToMove;
+									vec.push(tmpb);
+								}
+
 								if p != PieceType::Empty
 								{
 									break;
@@ -137,18 +160,21 @@ impl Board
 						{
 							continue 'next_piece;
 						}
-
 						for k in 1..9
 						{
 							if b.getPiece(i + k, j + k).is_some()
 							{
 								let tmpb = b;
-								let p = *tmpb.getPiece(i + k, j + k).unwrap();
-								*tmpb.getPiece(i + k, j + k).unwrap() = *p;
-								*tmpb.getPiece(i, j).unwrap() = PieceType::Empty;
-								tmpb.bToMove = !tmpb.bToMove;
-								vec.push(tmpb);
-								if p != PieceType::Empty
+								let P = *tmpb.getPiece(i + k, j + k).unwrap();
+								if (P.isBlack() != p.isBlack()) | P == PieceType::Empty
+								{
+									*tmpb.getPiece(i + k, j + k).unwrap() = *p;
+									*tmpb.getPiece(i, j).unwrap() = PieceType::Empty;
+									tmpb.bToMove = !tmpb.bToMove;
+									vec.push(tmpb);
+								}
+								
+								if P != PieceType::Empty
 								{
 									break;
 								}
@@ -156,11 +182,15 @@ impl Board
 							if b.getPiece(i - k, j - k).is_some()
 							{
 								let tmpb = b;
-								let p = *tmpb.getPiece(i + k, j + k).unwrap();
-								*tmpb.getPiece(i - k, j - k).unwrap() = *p;
-								*tmpb.getPiece(i, j).unwrap() = PieceType::Empty;
-								tmpb.bToMove = !tmpb.bToMove;
-								vec.push(tmpb);
+								let P = *tmpb.getPiece(i + k, j + k).unwrap();
+								if (P.isBlack() != p.isBlack()) | P == PieceType::Empty
+								{
+									*tmpb.getPiece(i - k, j - k).unwrap() = *p;
+									*tmpb.getPiece(i, j).unwrap() = PieceType::Empty;
+									tmpb.bToMove = !tmpb.bToMove;
+									vec.push(tmpb);
+								}
+
 								if p != PieceType::Empty
 								{
 									break;
@@ -169,10 +199,14 @@ impl Board
 							if b.getPiece(i + k, j).is_some()
 							{
 								let tmpb = b;
-								let p = *tmpb.getPiece(i + k, j + k).unwrap();
-								*tmpb.getPiece(i + k, j).unwrap() = *p;
-								tmpb.bToMove = !tmpb.bToMove;
-								vec.push(tmpb);
+								let P = *tmpb.getPiece(i + k, j + k).unwrap();
+								if (P.isBlack() != p.isBlack()) | P == PieceType::Empty
+								{
+									*tmpb.getPiece(i + k, j).unwrap() = *p;
+									tmpb.bToMove = !tmpb.bToMove;
+									vec.push(tmpb);
+								}
+
 								if p != PieceType::Empty
 								{
 									break;
@@ -181,10 +215,14 @@ impl Board
 							if b.getPiece(i - k, j).is_some()
 							{
 								let tmpb = b;
-								let p = *tmpb.getPiece(i + k, j + k).unwrap();
-								*tmpb.getPiece(i - k, j).unwrap() = *p;
-								tmpb.bToMove = !tmpb.bToMove;
-								vec.push(tmpb);
+								let P= *tmpb.getPiece(i + k, j + k).unwrap();
+								if (P.isBlack() != p.isBlack()) | P == PieceType::Empty
+								{
+									*tmpb.getPiece(i - k, j).unwrap() = *p;
+									tmpb.bToMove = !tmpb.bToMove;
+									vec.push(tmpb);
+								}
+
 								if p != PieceType::Empty
 								{
 									break;
@@ -193,10 +231,14 @@ impl Board
 							if b.getPiece(i, j + k).is_some()
 							{
 								let tmpb = b;
-								let p = *tmpb.getPiece(i + k, j + k).unwrap();
-								*tmpb.getPiece(i, j + k).unwrap() = *p;
-								tmpb.bToMove = !tmpb.bToMove;
-								vec.push(tmpb);
+								let P = *tmpb.getPiece(i + k, j + k).unwrap();
+								if (P.isBlack() != p.isBlack()) | P == PieceType::Empty
+								{
+									*tmpb.getPiece(i, j + k).unwrap() = *p;
+									tmpb.bToMove = !tmpb.bToMove;
+									vec.push(tmpb);
+								}
+								
 								if p != PieceType::Empty
 								{
 									break;
@@ -205,10 +247,14 @@ impl Board
 							if b.getPiece(i, j - k).is_some()
 							{
 								let tmpb = b;
-								let p = *tmpb.getPiece(i + k, j + k).unwrap();
-								*tmpb.getPiece(i, j - k).unwrap() = *p;
-								tmpb.bToMove = !tmpb.bToMove;
-								vec.push(tmpb);
+								let P = *tmpb.getPiece(i + k, j + k).unwrap();
+								if (P.isBlack() != p.isBlack()) | P == PieceType::Empty
+								{
+									*tmpb.getPiece(i, j - k).unwrap() = *p;
+									tmpb.bToMove = !tmpb.bToMove;
+									vec.push(tmpb);
+								}
+
 								if p != PieceType::Empty
 								{
 									break;
@@ -221,66 +267,98 @@ impl Board
 						if b.getPiece(i + 3, j + 2).is_some()
 						{
 							let tmpb = b;
-							*tmpb.getPiece(i + 3, j + 2).unwrap() = *p;
-							*tmpb.getPiece(i, j).unwrap() = PieceType::Empty;
-							tmpb.bToMove = !tmpb.bToMove;
-							vec.push(tmpb);
+							let P = tmpb.getPiece(i + 3, j + 2).unwrap();
+							if P.isBlack() != p.isBlack()
+							{
+								*P = *p;
+								*tmpb.getPiece(i, j).unwrap() = PieceType::Empty;
+								tmpb.bToMove = !tmpb.bToMove;
+								vec.push(tmpb);
+							}
 						}
 						if b.getPiece(i + 3, j - 2).is_some()
 						{
 							let tmpb = b;
-							*tmpb.getPiece(i + 3, j - 2).unwrap() = *p;
-							*tmpb.getPiece(i, j).unwrap() = PieceType::Empty;
-							tmpb.bToMove = !tmpb.bToMove;
-							vec.push(tmpb);
+							let P = tmpb.getPiece(i + 3, j - 2).unwrap();
+							if P.isBlack() != p.isBlack()
+							{
+								*P = *p;
+								*tmpb.getPiece(i, j).unwrap() = PieceType::Empty;
+								tmpb.bToMove = !tmpb.bToMove;
+								vec.push(tmpb);
+							}
 						}
 						if b.getPiece(i - 3, j + 2).is_some()
 						{
 							let tmpb = b;
-							*tmpb.getPiece(i - 3, j + 2).unwrap() = *p;
-							*tmpb.getPiece(i, j).unwrap() = PieceType::Empty;
-							tmpb.bToMove = !tmpb.bToMove;
-							vec.push(tmpb);
+							let P = tmpb.getPiece(i - 3, j + 2).unwrap();
+							if P.isBlack() != p.isBlack()
+							{
+								*P = *p;
+								*tmpb.getPiece(i, j).unwrap() = PieceType::Empty;
+								tmpb.bToMove = !tmpb.bToMove;
+								vec.push(tmpb);
+							}
 						}
 						if b.getPiece(i - 3, j - 2).is_some()
 						{
 							let tmpb = b;
-							*tmpb.getPiece(i - 3, j - 2).unwrap() = *p;
-							*tmpb.getPiece(i, j).unwrap() = PieceType::Empty;
-							tmpb.bToMove = !tmpb.bToMove;
-							vec.push(tmpb);
+							let P = tmpb.getPiece(i - 3, j - 2).unwrap();
+							if P.isBlack() != p.isBlack()
+							{
+								*P = *p;
+								*tmpb.getPiece(i, j).unwrap() = PieceType::Empty;
+								tmpb.bToMove = !tmpb.bToMove;
+								vec.push(tmpb);
+							}
 						}
 						if b.getPiece(i + 2, j + 3).is_some()
 						{
 							let tmpb = b;
-							*tmpb.getPiece(i + 2, j + 3).unwrap() = *p;
-							*tmpb.getPiece(i, j).unwrap() = PieceType::Empty;
-							tmpb.bToMove = !tmpb.bToMove;
-							vec.push(tmpb);
+							let P = tmpb.getPiece(i + 2, j + 3).unwrap();
+							if P.isBlack() != p.isBlack()
+							{
+								*P = *p;
+								*tmpb.getPiece(i, j).unwrap() = PieceType::Empty;
+								tmpb.bToMove = !tmpb.bToMove;
+								vec.push(tmpb);
+							}
 						}
 						if b.getPiece(i + 2, j - 3).is_some()
 						{
 							let tmpb = b;
-							*tmpb.getPiece(i + 2, j - 3).unwrap() = *p;
-							*tmpb.getPiece(i, j).unwrap() = PieceType::Empty;
-							tmpb.bToMove = !tmpb.bToMove;
-							vec.push(tmpb);
+							let P = tmpb.getPiece(i + 2, j - 3).unwrap();
+							if P.isBlack() != p.isBlack()
+							{
+								*P = *p;
+								*tmpb.getPiece(i, j).unwrap() = PieceType::Empty;
+								tmpb.bToMove = !tmpb.bToMove;
+								vec.push(tmpb);
+							}
 						}
 						if b.getPiece(i - 2, j + 3).is_some()
 						{
 							let tmpb = b;
-							*tmpb.getPiece(i - 2, j + 3).unwrap() = *p;
-							*tmpb.getPiece(i, j).unwrap() = PieceType::Empty;
-							tmpb.bToMove = !tmpb.bToMove;
-							vec.push(tmpb);
+							let P = tmpb.getPiece(i - 2, j + 3).unwrap();
+							if P.isBlack() != p.isBlack()
+							{
+								*P = *p;
+								*tmpb.getPiece(i, j).unwrap() = PieceType::Empty;
+								tmpb.bToMove = !tmpb.bToMove;
+								vec.push(tmpb);
+							}
 						}
 						if b.getPiece(i - 2, j - 3).is_some()
 						{
 							let tmpb = b;
-							*tmpb.getPiece(i - 2, j - 3).unwrap() = *p;
-							*tmpb.getPiece(i, j).unwrap() = PieceType::Empty;
-							tmpb.bToMove = !tmpb.bToMove;
-							vec.push(tmpb);
+							let P = tmpb.getPiece(i - 2, j - 3).unwrap();
+							if P.isBlack() != p.isBlack()
+							{
+								*P = *p;
+								*tmpb.getPiece(i, j).unwrap() = PieceType::Empty;
+								tmpb.bToMove = !tmpb.bToMove;
+								vec.push(tmpb);
+							}
 						}
 					},
 					PieceType::BPawn =>

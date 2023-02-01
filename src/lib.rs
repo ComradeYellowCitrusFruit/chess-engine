@@ -21,7 +21,7 @@ pub use crate::{ board::Board, fen::*, moves::*, position::Position, search::alp
 *   @param FEN The FEN string to use to generate the next move from
 *   @param depth How many moves to think ahead, less means a dumber AI, faster compuation, and less memory used
 */
-pub fn generateMove(FEN: &str, depth: i16) -> Option<String>
+pub fn generateMove(FEN: &str, depth: i16) -> Option<std::string::String>
 {
 	let b = Board::fromFEN(FEN);
 	let nodes = b.generateMoves();
