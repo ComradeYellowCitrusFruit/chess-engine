@@ -31,7 +31,7 @@ pub fn generateMove(FEN: &str, depth: i16) -> Option<std::string::String>
 
 	for i in nodes.iter()
 	{
-		node_scores.push(alphabeta(i, depth - 1, i64::MIN, i64::MAX, b.bToMove));
+		node_scores.push(alphabeta(*i, depth - 1, i64::MIN, i64::MAX, b.bToMove));
 	}
 
 	for i in 0..nodes.len()

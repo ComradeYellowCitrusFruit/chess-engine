@@ -6,6 +6,7 @@
 
 pub use crate::{ board::Board, moves::*, position::Position, fen::*};
 
+#[derive(Copy, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub enum PieceType
 {
 	Empty,
