@@ -17,22 +17,22 @@ pub fn alphabeta(node: Board, depth: i16, alpha: i64, beta: i64, isBlack: bool) 
         {
             return if node.isWhiteInCheckmate()
             {
-                node.blackCentipawns() - node.whiteCentipawns() + PieceType::WKing.centipawns()
+                (node.blackCentipawns() - node.whiteCentipawns() + PieceType::WKing.centipawns()) as i64
             }
             else
             {
-                node.blackCentipawns() - node.whiteCentipawns()
+                (node.blackCentipawns() - node.whiteCentipawns()) as i64
             };
         }
         else
         {
             return if node.isWhiteInCheckmate()
             {
-                node.whiteCentipawns() - node.blackCentipawns() + PieceType::BKing.centipawns()
+                (node.whiteCentipawns() - node.blackCentipawns() + PieceType::BKing.centipawns()) as i64
             }
             else
             {
-                node.whiteCentipawns() - node.blackCentipawns()
+                (node.whiteCentipawns() - node.blackCentipawns()) as i64
             };
         }
     }

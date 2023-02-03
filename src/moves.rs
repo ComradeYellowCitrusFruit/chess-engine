@@ -32,7 +32,7 @@ impl Board
 					continue
 				};
 
-				// TODO: Add code to handle kings, and pawns
+				// TODO: Add code to handle pawns, and check
 				match *p
 				{
 					PieceType::BBishop | PieceType::WBishop =>
@@ -454,6 +454,7 @@ impl Board
 							}
 						}
 					},
+					_ => {},
 				}
 			}
 		}

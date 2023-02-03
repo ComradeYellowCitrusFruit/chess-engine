@@ -4,7 +4,8 @@
 *   license: GPL-3.0-only
 */
 
-pub use crate::{ board::Board, moves::*, position::Position, fen::*};
+use std::*;
+pub use crate::{ board::Board, moves::*, position::Position, fen::* };
 
 #[derive(Copy, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub enum PieceType
@@ -62,13 +63,13 @@ impl Board
 {
 	// @param num Number on the Chess board
 	// @param letter Letter on the Chess board, 8 for a, 1 for h
-	pub fn getPiece(&self, num: u8, letter: u8) -> Option<&mut PieceType>
+	pub fn getPiece(&self, num: i8, letter: i8) -> Option<&mut PieceType>
 	{
 		if !Position::mkPos(num, letter).inBounds()
 		{
-			return false;
+			return None;
 		}
-		self.pieces[(num - 8).abs()][(letter - 8).abs()]
+		Some(&mut self.pieces[(num - 8).abs() as usize][(letter - 8).abs() as usize])
 	}
 
 		// Calculate white's centipawn rating

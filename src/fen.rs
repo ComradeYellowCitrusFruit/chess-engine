@@ -4,7 +4,7 @@
 *   license: GPL-3.0-only
 */
 
-use std::{option::*, string::*, str::*};
+use std::{ string::* };
 
 pub use crate::{ board::Board, moves::*, position::Position, piece::PieceType };
 
@@ -37,7 +37,7 @@ impl Board
 		Board::fromFEN("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1")
 	}
 	
-	pub fn fromFEN(fen: str) -> Board
+	pub fn fromFEN(fen: &str) -> Board
 	{
 		// 0 - positions
 		// 1 - To Move
@@ -57,7 +57,7 @@ impl Board
 			enPassant: None,
 			pieces: [[PieceType::Empty; 8]; 8],
 		};
-		for c in fen.chars().into_iter()
+		for c in fen.chars()
 		{
 			if num != 1 && letter != 0
 			{
@@ -67,11 +67,11 @@ impl Board
 				}
 				else if c.is_digit(10)
 				{
-					letter -= c.to_digit(10);
+					letter -= c.to_digit(10).unwrap();
 				}
 				else
 				{
-					*ret.getPiece(num, letter).unwrap() = match c
+					*ret.getPiece(num as i8, letter as i8).unwrap() = match c
 					{
 						'r' => PieceType::BRook,
 						'n' => PieceType::BKnight,
@@ -90,57 +90,44 @@ impl Board
 					letter -= 1;
 				}
 			}
-			else
-			{
-				if c == ' '
+			else if c == ' '
+   			{
+   				sectionOfFen += 1;
+   			}
+   			else
+   			{
+   				match sectionOfFen
 				{
-					sectionOfFen += 1;
-				}
-				else
-				{
-					match sectionOfFen
-					{
-						1 => {
-							if c == 'b'
-							{
-								ret.bToMove = true;
-							}
-						},
-						2 => {
-							if c == 'K'
-							{
-								ret.wkCastleAvalible = true;
-							}
-							if c == 'Q'
-							{
-								ret.wqCastleAvalible = true;
-							}
-							if c == 'k'
-							{
-								ret.bkCastleAvalible = true;
-							}
-							if c == 'q'
-							{
-								ret.bqCastleAvalible = true;
-							}
-						},
-						3 => {
-							if c != '-'
-							{
-								let s = String::new();
-								s.push(c);
-								s.push(c.next());
-								ret.enPassant = Some(Position::fromAlgebraic(s));
-							}
-							else
-							{
-								ret.enPassant = None;
-							}
-						},
-						_ => {},
-					}
-				}
-			}
+   					1 => {
+   						if c == 'b'
+   						{
+   							ret.bToMove = true;
+   						}
+					},
+   					2 => {
+   						if c == 'K'
+   						{
+   							ret.wkCastleAvalible = true;
+   						}
+   						if c == 'Q'
+   						{
+							ret.wqCastleAvalible = true;
+   						}
+   						if c == 'k'
+   						{
+   							ret.bkCastleAvalible = true;
+   						}
+   						if c == 'q'
+						{
+   							ret.bqCastleAvalible = true;
+   						}
+   					},
+   					3 => {
+   						// TODO: En passant
+   					},
+					_ => {},
+   				}
+   			}
 		}
 		ret
 	}
@@ -153,7 +140,7 @@ impl Board
 			let emptyCount = 0;
 			for j in (1..9).rev()
 			{
-				if self.getPiece(i, j) == PieceType::Empty
+				if self.getPiece(i, j).is_some() && *self.getPiece(i, j).unwrap() == PieceType::Empty
 				{
 					emptyCount += 1;
 				}
@@ -161,14 +148,14 @@ impl Board
 				{
 					if emptyCount != 0
 					{
-						s.push(char::from_digit(emptyCount, 10));
+						s.push(char::from_digit(emptyCount, 10).unwrap());
 					}
-					s.push(self.getPiece(i, j).fenChar());
+					s.push(self.getPiece(i, j).unwrap().fenChar());
 				}
 			}
 			if emptyCount != 0
 			{
-				s.push(char::from_digit(emptyCount, 10));
+				s.push(char::from_digit(emptyCount, 10).unwrap());
 			}
 			s.push('/');
 		}

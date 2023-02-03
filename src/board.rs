@@ -4,7 +4,7 @@
 *   license: GPL-3.0-only
 */
 
-use std::{string::*, char::*, option::*};
+use std::{ option::* };
 
 pub use crate::{ fen::*, moves::*, position::Position, piece::PieceType };
 
@@ -12,9 +12,9 @@ pub use crate::{ fen::*, moves::*, position::Position, piece::PieceType };
 pub struct Board
 {
 	pub wqCastleAvalible: bool,
-	pub wkcastleAvalible: bool,
+	pub wkCastleAvalible: bool,
 	pub bqCastleAvalible: bool,
-	pub bkcastleAvalible: bool,
+	pub bkCastleAvalible: bool,
 	pub bToMove: bool,
 	pub enPassant: Option<Position>,
 	pub pieces: [[PieceType; 8]; 8],

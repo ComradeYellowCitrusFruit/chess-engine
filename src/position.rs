@@ -21,7 +21,7 @@ pub struct Position
 
 impl Position
 {
-	pub fn mkPos(num: u8, letr: u8) -> Position
+	pub fn mkPos(num: i8, letr: i8) -> Position
 	{
 		Position { letter: letr, number: num }
 	}
@@ -40,6 +40,7 @@ impl Position
 	}
 }
 
+// TODO: Fix the issues
 impl Board
 {
 	// Is position attacked
