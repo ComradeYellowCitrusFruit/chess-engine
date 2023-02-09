@@ -453,8 +453,184 @@ impl Board
 								*tmpb.getPiece(i, j).unwrap() = PieceType::Empty;
 							}
 						}
+					}, 
+					// TODO: En Passant
+					PieceType::BPawn =>
+					{
+						if !b.bToMove
+						{
+							continue 'next_piece;
+						}
+						
+						if i == 7 && *b.getPiece(i - 2, j).unwrap() == PieceType::Empty 
+						{
+							let tmpb = b;
+      						*tmpb.getPiece(i, j).unwrap() = PieceType::Empty;
+      						*tmpb.getPiece(i - 2, j).unwrap() = PieceType::BPawn;
+      						tmpb.bToMove = false;
+      						vec.push(tmpb);
+    					}
+
+						if *b.getPiece(i - 1, j).unwrap() == PieceType::Empty
+						{
+							let tmpb = b;
+							*tmpb.getPiece(i, j).unwrap() = PieceType::Empty;
+							*tmpb.getPiece(i - 1, j).unwrap() = PieceType::BPawn;
+							tmpb.bToMove = false;
+							if tmpb.getPiece(i - 2, j).is_none()
+							{
+								*tmpb.getPiece(i - 1, j).unwrap() = PieceType::BKnight;
+								vec.push(tmpb);
+								*tmpb.getPiece(i - 1, j).unwrap() = PieceType::BRook;
+								vec.push(tmpb);
+								*tmpb.getPiece(i - 1, j).unwrap() = PieceType::BBishop;
+								vec.push(tmpb);
+								*tmpb.getPiece(i - 1, j).unwrap() = PieceType::BQueen;
+								vec.push(tmpb);
+							}
+							else
+							{
+								vec.push(tmpb);
+							}
+						}
+
+						if b.getPiece(i - 1, j - 1).is_some() && *b.getPiece(i - 1, j - 1).unwrap() != PieceType::Empty && b.getPiece(i - 1, j - 1).unwrap().isWhite()
+						{
+							let tmpb = b;
+							*tmpb.getPiece(i, j).unwrap() = PieceType::Empty;
+							*tmpb.getPiece(i - 1, j - 1).unwrap() = PieceType::BPawn;
+							tmpb.bToMove = false;
+							if tmpb.getPiece(i - 2, j).is_none()
+							{
+								*tmpb.getPiece(i - 1, j - 1).unwrap() = PieceType::BKnight;
+								vec.push(tmpb);
+								*tmpb.getPiece(i - 1, j - 1).unwrap() = PieceType::BRook;
+								vec.push(tmpb);
+								*tmpb.getPiece(i - 1, j - 1).unwrap() = PieceType::BBishop;
+								vec.push(tmpb);
+								*tmpb.getPiece(i - 1, j - 1).unwrap() = PieceType::BQueen;
+								vec.push(tmpb);
+							}
+							else
+							{
+								vec.push(tmpb);
+							}
+						}
+
+						if b.getPiece(i - 1, j + 1).is_some() && *b.getPiece(i - 1, j + 1).unwrap() != PieceType::Empty && b.getPiece(i - 1, j + 1).unwrap().isWhite()
+						{
+							let tmpb = b;
+							*tmpb.getPiece(i, j).unwrap() = PieceType::Empty;
+							*tmpb.getPiece(i - 1, j + 1).unwrap() = PieceType::BPawn;
+							tmpb.bToMove = false;
+							if tmpb.getPiece(i - 2, j).is_none()
+							{
+								*tmpb.getPiece(i - 1, j + 1).unwrap() = PieceType::BKnight;
+								vec.push(tmpb);
+								*tmpb.getPiece(i - 1, j + 1).unwrap() = PieceType::BRook;
+								vec.push(tmpb);
+								*tmpb.getPiece(i - 1, j + 1).unwrap() = PieceType::BBishop;
+								vec.push(tmpb);
+								*tmpb.getPiece(i - 1, j + 1).unwrap() = PieceType::BQueen;
+								vec.push(tmpb);
+							}
+							else
+							{
+								vec.push(tmpb);
+							};
+						}
 					},
-					_ => {},
+					PieceType::WPawn =>
+					{
+						if b.bToMove
+						{
+							continue 'next_piece;
+						}
+						
+						if i == 2 && *b.getPiece(i + 2, j).unwrap() == PieceType::Empty 
+						{
+							let tmpb = b;
+      						*tmpb.getPiece(i, j).unwrap() = PieceType::Empty;
+      						*tmpb.getPiece(i + 2, j).unwrap() = PieceType::BPawn;
+      						tmpb.bToMove = false;
+      						vec.push(tmpb);
+    					}
+
+						if *b.getPiece(i + 1, j).unwrap() == PieceType::Empty
+						{
+							let tmpb = b;
+							*tmpb.getPiece(i, j).unwrap() = PieceType::Empty;
+							*tmpb.getPiece(i + 1, j).unwrap() = PieceType::BPawn;
+							tmpb.bToMove = false;
+							if tmpb.getPiece(i + 2, j).is_none()
+							{
+								*tmpb.getPiece(i + 1, j).unwrap() = PieceType::BKnight;
+								vec.push(tmpb);
+								*tmpb.getPiece(i + 1, j).unwrap() = PieceType::BRook;
+								vec.push(tmpb);
+								*tmpb.getPiece(i + 1, j).unwrap() = PieceType::BBishop;
+								vec.push(tmpb);
+								*tmpb.getPiece(i + 1, j).unwrap() = PieceType::BQueen;
+								vec.push(tmpb);
+							}
+							else
+							{
+								vec.push(tmpb);
+							}
+						}
+
+						if b.getPiece(i + 1, j - 1).is_some() && *b.getPiece(i - 1, j - 1).unwrap() != PieceType::Empty && b.getPiece(i - 1, j - 1).unwrap().isWhite()
+						{
+							let tmpb = b;
+							*tmpb.getPiece(i, j).unwrap() = PieceType::Empty;
+							*tmpb.getPiece(i + 1, j - 1).unwrap() = PieceType::BPawn;
+							tmpb.bToMove = false;
+
+							if tmpb.getPiece(i + 2, j).is_none()
+							{
+								*tmpb.getPiece(i + 1, j - 1).unwrap() = PieceType::BKnight;
+								vec.push(tmpb);
+								*tmpb.getPiece(i + 1, j - 1).unwrap() = PieceType::BRook;
+								vec.push(tmpb);
+								*tmpb.getPiece(i + 1, j - 1).unwrap() = PieceType::BBishop;
+								vec.push(tmpb);
+								*tmpb.getPiece(i + 1, j - 1).unwrap() = PieceType::BQueen;
+								vec.push(tmpb);
+							}
+							else
+							{
+								vec.push(tmpb);
+							}
+						}
+
+						if b.getPiece(i + 1, j + 1).is_some() && *b.getPiece(i - 1, j + 1).unwrap() != PieceType::Empty && b.getPiece(i - 1, j + 1).unwrap().isWhite()
+						{
+							let tmpb = b;
+							*tmpb.getPiece(i, j).unwrap() = PieceType::Empty;
+							*tmpb.getPiece(i + 1, j + 1).unwrap() = PieceType::BPawn;
+							tmpb.bToMove = false;
+
+							if tmpb.getPiece(i + 2, j).is_none()
+							{
+								*tmpb.getPiece(i + 1, j + 1).unwrap() = PieceType::BKnight;
+								vec.push(tmpb);
+								*tmpb.getPiece(i + 1, j + 1).unwrap() = PieceType::BRook;
+								vec.push(tmpb);
+								*tmpb.getPiece(i + 1, j + 1).unwrap() = PieceType::BBishop;
+								vec.push(tmpb);
+								*tmpb.getPiece(i + 1, j + 1).unwrap() = PieceType::BQueen;
+								vec.push(tmpb);
+							}
+							else
+							{
+								vec.push(tmpb);
+							}
+						}
+					},
+					PieceType::Empty =>
+					{
+						continue 'next_piece;
+					},
 				}
 			}
 		}

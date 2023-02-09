@@ -15,8 +15,8 @@ pub use crate::search::*;
 #[derive(Copy, Clone)]
 pub struct Position
 {
-	pub letter: u8,
-	pub number: u8,
+	pub letter: i8,
+	pub number: i8,
 }
 
 impl Position
