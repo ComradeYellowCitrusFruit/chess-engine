@@ -40,7 +40,7 @@ impl Position
 	}
 }
 
-// TODO: Fix the issues
+// TODO: Redo these
 impl Board
 {
 	// Is position attacked
@@ -266,4 +266,7 @@ impl Board
 		}
 		false
 	}
+
+	pub fn positionUnderAttackByWhite(&self, pos: Position) -> bool;
+	pub fn positionUnderAttackByBlack(&self, pos: Position) -> bool;
 }
